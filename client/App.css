@@ -1,0 +1,118 @@
+.App-header {
+  min-height: 1.5em;
+  width:auto;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  font-size: calc(1em + 2vmin);
+  font-weight: bold;
+  color: rgb(0, 0, 0);
+  background-color: rgb(174, 229, 192);
+}
+
+.App-logo {
+  height: 10vmin;
+  pointer-events: none;
+  padding:1em;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .App-logo {
+    animation: App-logo-spin infinite 20s linear;
+  }
+}
+
+.App-link {
+  color: #61dafb;
+}
+
+.adminPanel{
+  display: flex;
+  flex-direction: row;
+}
+
+.ticketBody{
+  color:black;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 60vh;
+}
+
+.ticketFieldBox{
+  width: 30vw;
+  height: 2vh;
+}
+
+.ticketSubmitButton {
+  color: white;
+  background-color: black;
+  margin-right: 1vw;
+  height: 5vh;
+  width: 8vw;
+  font-weight: bold;
+  border-radius: 1em; 
+  border: none; 
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+  cursor: pointer;
+  transition: all 0.3s ease; 
+}
+
+.ticketSubmitButton:hover {
+  transform: translateY(-2px); 
+  box-shadow: 0px 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.ticketSubmitSection{
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+
+.analysisBox {
+  width: 80%;        
+  max-width: 1000px;       
+  margin: 20px auto;   
+  padding: 20px;          
+  background-color: #f4f4f4; 
+  border-radius: 8px;     
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); 
+  font-family: Arial, sans-serif; 
+}
+
+.analysisBox h2, .analysisBox h3, .analysisBox h4 {
+  text-align: center; 
+  color: #333; 
+}
+
+.analysisBox p, .analysisBox ul {
+  font-size: 16px; 
+  line-height: 1.5;
+  color: #444; 
+}
+
+.analysisBox ul {
+  list-style-type: none;
+  padding-left: 20px;   
+}
+
+.analysisBox ul li {
+  margin-bottom: 10px;  
+}
+
+.analysisBox strong {
+  font-weight: bold;   
+}
+
+@keyframes App-logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
