@@ -24,14 +24,16 @@ const TicketForm = (props) => {
         overall_risk_assessment: ""
       })
     
-      // Handle form submission
+      const [loading, setLoading] = useState(false); 
+
       const handleSubmit = async (e) => {
         e.preventDefault();
-        // Check if recaptcha is filled
         if (!formData.recaptcha || formData.patentID === '' || formData.name === '') {
           console.error('Please complete the reCAPTCHA and fill out name & patentID');
           return;
         }
+
+        setLoading(true); 
 
         try {
           const { name, patentID } = formData;
@@ -103,6 +105,7 @@ const TicketForm = (props) => {
         </label>
         <br />
 
+        {loading && <p>Loading, please wait...</p>} 
         <div className="ticketSubmitSection">
           <button type="submit" className="ticketSubmitButton">Submit</button>
           <ReCAPTCHA
