@@ -62,9 +62,9 @@ If the ReCaptcha box is not selected, the application will not submit, and an er
 
 2. Docker Issues:
 If you face issues while running Docker, ensure Docker is correctly installed and the user has permissions to access Docker. If you're still having issues, restart the Docker service:
-
+```bash
 sudo systemctl restart docker
-
+```
 ---
 
 ## License
