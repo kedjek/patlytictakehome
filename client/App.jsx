@@ -3,7 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import './App.css';
 
 import TicketForm from './components/ticket_form';
-import logo from './public/logo.png';
+import logo from '../public/logo.png';
 
 function App() {
   return (
