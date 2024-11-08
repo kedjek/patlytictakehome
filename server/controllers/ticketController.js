@@ -11,6 +11,9 @@ const openai = new OpenAI({
 
 ticketController.fileSearch = async (req, res, next) => {
     try {
+        const { patentID, name } = req.body;
+        let patentData, companyData;
+
         try {
             patentData = JSON.parse(await fs.readFile(path.join(__dirname, '../../public/patents.json'), 'utf-8'));
             companyData = JSON.parse(await fs.readFile(path.join(__dirname, '../../public/company_products.json'), 'utf-8'));
