@@ -3,7 +3,8 @@ const router = express.Router();
 const ticketController = require('../controllers/ticketController');
 
 
-router.post('/', ticketController.fileSearch, ticketController.checkInfringement,
+router.post('/', console.log('hellooooooooooooo'), ticketController.fileSearch, ticketController.checkInfringement,
+  
   async (req, res) => {
     try{
       //send list of tickets back as response
