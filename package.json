@@ -9,6 +9,7 @@
     "cookie-parser": "^1.4.6",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "fuse.js": "^7.0.0",
     "http": "^0.0.1-security",
     "mongodb": "^6.5.0",
     "mongoose": "^8.3.1",
@@ -22,7 +23,6 @@
     "web-vitals": "^2.1.4",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
-
   },
   "scripts": {
     "start": "nodemon ./server/server.js",
@@ -48,7 +48,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
   }
 }

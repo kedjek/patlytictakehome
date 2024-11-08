@@ -1,7 +1,8 @@
 const fs = require('fs').promises;
 const path = require('path');
-const ticketController = {};
+const Fuse = require('fuse.js');
 
+const ticketController = {};
 const OpenAI = require("openai");
 const openai = new OpenAI({
   apiKey: process.env.GPT_SECRET_KEY,
@@ -10,9 +11,6 @@ const openai = new OpenAI({
 
 ticketController.fileSearch = async (req, res, next) => {
     try {
-        const { patentID, name } = req.body;
-        let patentData, companyData;
-
         try {
             patentData = JSON.parse(await fs.readFile(path.join(__dirname, '../../public/patents.json'), 'utf-8'));
             companyData = JSON.parse(await fs.readFile(path.join(__dirname, '../../public/company_products.json'), 'utf-8'));
@@ -20,28 +18,34 @@ ticketController.fileSearch = async (req, res, next) => {
             console.error('Error reading or parsing JSON files:', error);
             return res.status(500).json({ message: 'Error loading data files' });
         }
-
+        
         if (!Array.isArray(patentData) || !companyData.companies) {
             console.error('Unexpected data structure in JSON files');
             return res.status(500).json({ message: 'Invalid data structure in files' });
         }
-
-        const matchedPatents = patentData.filter(item => item.publication_number?.toLowerCase() === patentID.toLowerCase());
-        const matchedCompanies = companyData.companies.filter(item => item.name?.toLowerCase().includes(name.toLowerCase()));
-
+        
+        const patentOptions = { keys: ['publication_number'], threshold: 0.4 }; 
+        const companyOptions = { keys: ['name'], threshold: 0.4 };
+        
+        const patentFuse = new Fuse(patentData, patentOptions);
+        const companyFuse = new Fuse(companyData.companies, companyOptions);
+        
+        const matchedPatents = patentFuse.search(patentID).map(result => result.item);
+        const matchedCompanies = companyFuse.search(name).map(result => result.item);
+        
         if (matchedPatents.length === 0 || matchedCompanies.length === 0) {
             return res.status(404).json({ message: 'No match found' });
         }
-
+        
         if (!matchedPatents[0].abstract || !matchedCompanies[0].products) {
             return res.status(404).json({ message: 'Required data not found in matches' });
         }
-
+        
         const payload = {
             abstract: matchedPatents[0].abstract,
-            products: matchedCompanies[0].products,
+            products: matchedCompanies[0].products
         };
-
+        
         res.locals.payload = payload;
         next();
 
