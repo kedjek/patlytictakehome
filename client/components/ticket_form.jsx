@@ -47,6 +47,8 @@ const TicketForm = (props) => {
               body: JSON.stringify(payload),
           });
           if (response.ok) {
+            setLoading(false);
+            
             const data = await response.json();
             setAnalysis({
               patent_id: patentID,
