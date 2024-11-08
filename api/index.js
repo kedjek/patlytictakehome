@@ -4,7 +4,6 @@ const express = require ('express');
 require('dotenv').config();
 const app = express();
 const apiRouter = require('./routes/api');
-const port = 3000;
 
 // Handle parsing request body, cookies, url
 app.use(express.json());
@@ -32,6 +31,7 @@ app.use((err, req, res, next) => {
 
 
 /*starts the server*/
-module.exports = app.listen(port, () => {console.log (`Server listening on port: ${port}...`)});
+module.exports = app;
+// module.exports = app.listen(port, () => {console.log (`Server listening on port: ${port}...`)});
 
   

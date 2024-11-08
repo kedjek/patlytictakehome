@@ -1,23 +1,9 @@
 {
-    "rewrites": [],
-    "headers": [
-      {
-        "source": "/ticketformsent",
-        "headers": [
-          {
-            "key": "Access-Control-Allow-Origin",
-            "value": "*"
-          },
-          {
-            "key": "Access-Control-Allow-Methods",
-            "value": "POST"
-          },
-          {
-            "key": "Access-Control-Allow-Headers",
-            "value": "Content-Type"
-          }
-        ]
-      }
-    ]
-  }
-  
+  "version": 2,
+  "builds": [
+    { "src": "api/index.js", "use": "@vercel/node" }
+  ],
+  "routes": [
+    { "src": "/check-infringement", "dest": "/api/index.js" }
+  ]
+}
