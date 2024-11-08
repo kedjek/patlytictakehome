@@ -9,33 +9,46 @@ const openai = new OpenAI({
 
 
 ticketController.fileSearch = async (req, res, next) => {
-    const { patentID, name } = req.body;
+    try {
+        const { patentID, name } = req.body;
+        let patentData, companyData;
 
-    const patentData = JSON.parse(await fs.readFile(path.join(__dirname, '../../public/patents.json'), 'utf-8'));
-    const companyData = JSON.parse(await fs.readFile(path.join(__dirname, '../../public/company_products.json'), 'utf-8'));
+        try {
+            patentData = JSON.parse(await fs.readFile(path.join(__dirname, '../../public/patents.json'), 'utf-8'));
+            companyData = JSON.parse(await fs.readFile(path.join(__dirname, '../../public/company_products.json'), 'utf-8'));
+        } catch (error) {
+            console.error('Error reading or parsing JSON files:', error);
+            return res.status(500).json({ message: 'Error loading data files' });
+        }
 
-    const matchedPatents = patentData.filter(item => item.publication_number.toLowerCase() === patentID.toLowerCase())
-    const matchedCompanies = companyData.companies.filter(item => item.name.toLowerCase().includes(name.toLowerCase()))
+        if (!Array.isArray(patentData) || !companyData.companies) {
+            console.error('Unexpected data structure in JSON files');
+            return res.status(500).json({ message: 'Invalid data structure in files' });
+        }
 
-        
-    // Check if any matches were found
-    if (matchedPatents.length === 0 || matchedCompanies.length === 0) {
-        return res.status(404).json({ message: 'No match found' });
+        const matchedPatents = patentData.filter(item => item.publication_number?.toLowerCase() === patentID.toLowerCase());
+        const matchedCompanies = companyData.companies.filter(item => item.name?.toLowerCase().includes(name.toLowerCase()));
+
+        if (matchedPatents.length === 0 || matchedCompanies.length === 0) {
+            return res.status(404).json({ message: 'No match found' });
+        }
+
+        if (!matchedPatents[0].abstract || !matchedCompanies[0].products) {
+            return res.status(404).json({ message: 'Required data not found in matches' });
+        }
+
+        const payload = {
+            abstract: matchedPatents[0].abstract,
+            products: matchedCompanies[0].products,
+        };
+
+        res.locals.payload = payload;
+        next();
+
+    } catch (error) {
+        console.error('Error in function:', error);
+        return res.status(500).json({ message: 'Internal server error' });
     }
-
-    // Now safely access properties if matches were found
-    if (!matchedPatents[0].abstract || !matchedCompanies[0].products) {
-        return res.status(404).json({ message: 'No match found' });
-    }
-
-    const payload = {
-        abstract: matchedPatents[0].abstract,
-        products : matchedCompanies[0].products
-    }
-
-
-    res.locals.payload = payload
-    next();
 }
 
 ticketController.checkInfringement = async (req, res, next) => {
