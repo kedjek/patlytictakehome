@@ -37,7 +37,7 @@ const TicketForm = (props) => {
           const { name, patentID } = formData;
           const payload = { name, patentID }
 
-          const response = await fetch('/check-infringement', {
+          const response = await fetch('https://patlytictakehome.vercel.app/check-infringement', {
               method: 'POST',
               headers: {
                   'Content-Type': 'application/json',
