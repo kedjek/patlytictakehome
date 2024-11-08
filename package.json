@@ -22,10 +22,11 @@
     "web-vitals": "^2.1.4",
     "webpack": "^5.91.0",
     "webpack-cli": "^5.1.4"
+
   },
   "scripts": {
     "start": "nodemon ./server/server.js",
-    "build": "npx webpack",
+    "build": "npm install webpack-cli && webpack",
     "postinstall": "npm install webpack@5.91.0 webpack-cli@5.1.4",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -49,6 +50,5 @@
     ]
   },
   "devDependencies": {
-
   }
 }
